@@ -20,10 +20,9 @@ public class CategoryResource {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	@GetMapping
+	@GetMapping("/categories")
 	public ResponseEntity<List<Category>> findAll() {
 		List<Category> list = categoryRepository.findAll();
-
 		return ResponseEntity.ok().body(list);
 
 	}
@@ -31,7 +30,6 @@ public class CategoryResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		Category cat = categoryRepository.findById(id).get();
-
 		return ResponseEntity.ok().body(cat);
 
 	}

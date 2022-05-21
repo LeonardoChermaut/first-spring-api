@@ -3,37 +3,41 @@ package com.dev.firstapi.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class Product implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name= "prod_id")
 	private Long id;
+	@Column(name= "prod_name")
 	private String name;
-	private Double price;
+	@Column(name= "prod_uni_val")
+	private Double unitaryValue;
+	@Column(name= "prod_desc")
+	private String description;
+	@Column(name= "prod_exp_date")
+	private String expirationDate;
+	private int quantity;
+
 	
 	@ManyToOne
-	@JoinColumn(name = "category_id")
-	protected Category category;
-
+	@JoinColumn(name = "cat_id")
+	private Category category;
 
 public Product() {
 	
 }
 
-	public Product(Long id, String name, Double price, Category category) {
-		super();
+	public Product(Long id, String name, Double unitaryValue, String description, String expirationDate, int quantity, Category category) {
 		this.id = id;
 		this.name = name;
-		this.price = price;
+		this.unitaryValue = unitaryValue;
+		this.description = description;
+		this.expirationDate = expirationDate;
+		this.quantity = quantity;
 		this.category = category;
 	}
 
@@ -53,12 +57,36 @@ public Product() {
 		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Double getUnitaryValue() {
+		return unitaryValue;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setUnitaryValue(Double unitaryValue) {
+		this.unitaryValue = unitaryValue;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public Category getCategory() {
@@ -69,28 +97,17 @@ public Product() {
 		this.category = category;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Product)) return false;
+		Product product = (Product) o;
+		return getQuantity() == product.getQuantity() && Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getUnitaryValue(), product.getUnitaryValue()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getExpirationDate(), product.getExpirationDate()) && Objects.equals(getCategory(), product.getCategory());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(getId(), getName(), getUnitaryValue(), getDescription(), getExpirationDate(), getQuantity(), getCategory());
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
-	}
-
-
-	
-
 }
+

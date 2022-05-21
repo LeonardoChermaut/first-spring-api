@@ -5,23 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Category implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-	
+public class Category {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name= "cat_id")
 	private Long id;
+	@Column(name= "cat_name")
 	private String name;
+	@Column(name= "cat_desc")
+	private String description;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "category")
@@ -32,10 +30,11 @@ public class Category implements Serializable{
 		
 	}
 
-	public Category(Long id, String name) {
-		super();
+	public Category(Long id, String name, String description) {
 		this.id = id;
 		this.name = name;
+		this.description = description;
+
 	}
 
 	public Long getId() {
@@ -54,30 +53,28 @@ public class Category implements Serializable{
 		this.name = name;
 	}
 
-	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public List<Product> getProducts() {
 		return products;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		return Objects.equals(id, other.id);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Category)) return false;
+		Category category = (Category) o;
+		return Objects.equals(getId(), category.getId()) && Objects.equals(getName(), category.getName()) && Objects.equals(getDescription(), category.getDescription()) && Objects.equals(getProducts(), category.getProducts());
 	}
 
-
-
-
-	
 }
