@@ -15,8 +15,12 @@ import com.dev.firstapi.entities.Category;
 import com.dev.firstapi.entities.Product;
 import com.dev.firstapi.repositories.CategoryRepository;
 import com.dev.firstapi.repositories.ProductRepository;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableSwagger2
+@EnableWebMvc
 public class InitiApplication  implements CommandLineRunner {
 
 	@Autowired
